@@ -5,7 +5,7 @@
       <div class="top-nav">
         <NavItem icon="logo">
           <template #item-link>
-            <img width="100px" src="@/assets/kong-logo.png"  />
+            <img width="100px" src="../assets/kong-logo.png"  />
           </template>
         </NavItem>
         <NavItem
@@ -27,7 +27,7 @@
         </NavItem>
         <NavItem icon="profile" class="profile-item">
           <template #item-icon>
-            <img src="@/assets/icon-profile.png"  />
+            <img src="../assets/icon-profile.png"  />
           </template>
           <template v-slot:item-link>
             <span>Konger 1</span>
