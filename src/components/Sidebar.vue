@@ -1,30 +1,38 @@
 <template>
   <aside :class="{'has-subnav': hasSubnav}">
-    <button class="trigger" @click="hasSubnav = !hasSubnav">TOGGLE SIDEBAR</button>
     <div class="main-nav">
-      <div class="top-nav">
-        <NavItem icon="logo">
+      <div class="nav-logo">
+        <NavItem
+          has-icon
+          :is-menu-item="false">
+          <template #item-icon>
+            <img src="@/assets/icon-kong.svg" />
+          </template>
           <template #item-link>
-            <img width="100px" src="../assets/kong-logo.png"  />
+            <img src="@/assets/icon-khcp.svg" />
           </template>
         </NavItem>
+      </div>
+      <div class="top-nav">
         <NavItem
           v-for="item in navList"
-          :key="item"
-          :icon="item.toLowerCase()"
-          :text="item"
-          :is-active="item === activeItem"
-          @toggled="activeItem = item" />
+          :key="item.text"
+          :icon="item.icon"
+          :text="item.text"
+          :is-active="activeItem === item.text"
+          has-icon
+          @clicked="(item) => activeItem = item" />
       </div>
+
       <div class="bottom-nav">
         <NavItem
           v-for="item in bottomList"
-          :key="item"
-          :icon="item.toLowerCase()"
-          :text="item === 'Gateways' ? 'API Gateway' : item"
-          :is-active="item === activeItem"
-          @toggled="activeItem = item">
+          :key="item.text"
+          :icon="item.icon"
+          :text="item.text"
+          has-icon>
         </NavItem>
+        <!--
         <NavItem icon="profile" class="profile-item">
           <template #item-icon>
             <img src="../assets/icon-profile.png"  />
@@ -36,38 +44,48 @@
             </svg>
           </template>
         </NavItem>
+        -->
       </div>
+
     </div>
-    <div
+    <Subnav
       v-if="hasSubnav"
-      class="secondary-nav">
-      <NavItem>
-        <template #item-link>
-          fooAPI
-        </template>
-      </NavItem>
-      <NavItem
-        v-for="item in subnavList"
-        :key="item"
-        :text="item"/>
-    </div>
+      title="Services">
+      <ServiceSwitcher />
+    </Subnav>
   </aside>
 </template>
 
 <script>
 import NavItem from '@/components/NavItem'
+import Subnav from '@/components/Subnav'
+import ServiceSwitcher from '@/components/ServiceSwitcher'
 
 export default {
   name: 'Sidebar',
-  components: { NavItem },
+  components: { NavItem, Subnav, ServiceSwitcher },
 
   data () {
     return {
-      hasSubnav: true,
-      navList: [ 'Services', 'Portals', 'Observability' ],
-      bottomList: [ 'Organization', 'Gateways', 'Help' ],
-      subnavList: [ 'Overview', 'Contracts', 'Implementation', 'Observability' ],
+      kongLogo: require('@/assets/icon-kong.svg'),
+      khcpLogo: require('@/assets/icon-khcp.svg'),
+      navList: [
+        { text: 'Services', icon: 'gateway' },
+        { text: 'Portals', icon: 'portalV2' },
+        { text: 'Observability', icon: 'vitals' }
+      ],
+      bottomList: [
+        { text: 'Organization', icon: 'people' },
+        { text: 'API Gateway', icon: 'stackedCards' },
+        { text: 'Help', icon: 'vitals' }
+      ],
       activeItem: 'Services'
+    }
+  },
+
+  computed: {
+    hasSubnav () {
+      return this.activeItem === 'Services'
     }
   }
 }
@@ -75,14 +93,21 @@ export default {
 
 <style lang="scss" scoped>
 aside {
+  --sidebarOpenWidth: 220px;
+  --sidebarCollapsedWidth: 64px;
+  --subnavWidth: 200px;
+
   display: flex;
   height: 100vh;
   color: #fff;
+  font-family: 'Roboto';
+  .nav-logo {
+    margin-bottom: 10px;
+    .nav-item { padding: 1rem; }
+  }
   &.has-subnav {
-    max-width: 285px; // .main-nav (63px) + .secondary-width (222px)
-    .main-nav {
-      max-width: 63px;
-    }
+    max-width: calc(var(--sidebarCollapsedWidth) + var(--subnavWidth));
+    .main-nav { max-width: var(--sidebarCollapsedWidth); }
   }
 
   .main-nav,
@@ -93,28 +118,15 @@ aside {
   .main-nav {
     display: flex;
     flex-direction: column;
-    max-width: 220px;
-    background-color: #1E4F82;
-    transition: all 200ms ease;
-    .top-nav {
-      margin-bottom: auto;
-    }
-  }
-
-  .secondary-nav {
-    background-color: #396C9A;
+    max-width: var(--sidebarOpenWidth);
+    background-image: linear-gradient(to bottom right, #00487A, #00518A);
+    background-color: #00487A;
+    .top-nav { margin-bottom: auto; }
   }
 }
 </style>
 
 <style lang="scss">
-.trigger {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 50px;
-}
-
 .profile-item .nav-link {
   display: flex;
   align-items: center;

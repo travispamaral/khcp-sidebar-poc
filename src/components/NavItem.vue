@@ -1,13 +1,15 @@
 <template>
   <div
-    :class="{ 'is-active': isActive }"
+    :class="[{'is-active': isActive }, {'is-menu-item': isMenuItem }]"
     class="nav-item">
-    <a href="#" @click="$emit('toggled', text)">
+    <a href="#" @click="$emit('clicked', text)">
       <div
-        v-if="icon"
+        v-if="hasIcon"
         class="nav-icon">
         <slot name="item-icon">
-          <img :src="getIconUrl(icon)"  />
+          <KIcon
+            :color="isActive ? 'rgba(255,255,255,1)' :  'rgba(255,255,255,.5)'"
+            :icon="icon" />
         </slot>
       </div>
       <div class="nav-link">
@@ -27,6 +29,14 @@ export default {
       type: Boolean,
       default: false
     },
+    isMenuItem: {
+      type: Boolean,
+      default: true
+    },
+    hasIcon: {
+      type: Boolean,
+      default: false
+    },
     icon: {
       type: String,
       default: ''
@@ -35,12 +45,6 @@ export default {
       type: String,
       default: ''
     }
-  },
-
-  methods: {
-    getIconUrl (icon) {
-      return require(`../assets/icon-${icon}.png`)
-    }
   }
 }
 </script>
@@ -48,19 +52,11 @@ export default {
 <style lang="scss" scoped>
 .nav-item {
   display: flex;
-  height: 50px;
-  padding: 0 1rem;
+  padding: 14px 20px;
   color: #fff;
   font-family: 'Roboto';
   white-space: nowrap;
   box-sizing:border-box;
-  &:hover,
-  &.is-active {
-    background: rgba(255,255,255,.06);
-  }
-  &.is-active {
-    font-weight: bold;
-  }
   a {
     display: flex;
     width: 100%;
@@ -69,8 +65,13 @@ export default {
     text-decoration: none;
   }
   .nav-icon {
-    padding-right: 1rem;
-    img { width: 32px; }
+    display: flex;
+    padding-right: 20px;
+  }
+  &.is-menu-item {
+    &:hover,
+    &.is-active { background: rgba(255,255,255,.06); }
+    &.is-active { font-weight: bold; }
   }
 }
 </style>
