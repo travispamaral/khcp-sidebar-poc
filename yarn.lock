@@ -809,6 +809,11 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
+"@kongponents/kicon@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@kongponents/kicon/-/kicon-0.4.2.tgz#582e79bace0086f601636698d376c9f68c291132"
+  integrity sha512-9ds0oUN4hUfzhn4w/RF9PKj0A0G9ISzrEcZ4YrCSxjyfDZZwcS/EEPkwV0TY+aE3JhMz/CGPOigyXEmtAKovhw==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
