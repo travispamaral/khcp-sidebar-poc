@@ -79,7 +79,7 @@ export default {
         { text: 'API Gateway', icon: 'stackedCards' },
         { text: 'Help', icon: 'vitals' }
       ],
-      activeItem: 'Services'
+      activeItem: ''
     }
   },
 
